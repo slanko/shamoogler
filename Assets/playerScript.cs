@@ -6,6 +6,7 @@ public class playerScript : MonoBehaviour
 {
     [SerializeField] float moveSpeed, turnSpeed;
     [SerializeField] KeyCode upKey, downKey, leftKey, rightKey;
+    [SerializeField] camLerper camBuddy;
     Animator anim;
     Rigidbody rb;
 
@@ -24,5 +25,14 @@ public class playerScript : MonoBehaviour
         transform.Translate(0, 0, v * moveSpeed * Time.deltaTime);
         transform.Rotate(0, h * turnSpeed * Time.deltaTime, 0);
         anim.SetFloat("walkey", v);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Cam Zone")
+        {
+            camZoneScript tempCZS = other.GetComponent<camZoneScript>();
+            camBuddy.followTransform = tempCZS.associatedCamThing.transform;
+        }
     }
 }
